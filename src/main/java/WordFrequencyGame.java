@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
-import static java.lang.reflect.Array.*;
-
 public class WordFrequencyGame {
     String WHITE_SPACE = "\\s+";
     int wordCount = 1;
@@ -16,9 +14,6 @@ public class WordFrequencyGame {
             return sentence + " 1";
         } else {
             try {
-                //split the input string with 1 to n pieces of spaces
-
-                //get the map for the next step of sizing the same word
                 List<WordInfo> wordInfoList = new ArrayList<>();
                 List<WordInfo> list = calculateWordFrequency(sentence);
                 wordInfoList = list;
@@ -52,11 +47,9 @@ public class WordFrequencyGame {
         return joiner.toString();
     }
 
-
     private Map<String,List<WordInfo>> getListMap(List<WordInfo> wordInfoList) {
         Map<String, List<WordInfo>> map = new HashMap<>();
         for (WordInfo wordInfo : wordInfoList){
-//       map.computeIfAbsent(input.getValue(), k -> new ArrayList<>()).add(input);
             if (!map.containsKey(wordInfo.getValue())){
                 ArrayList arr = new ArrayList<>();
                 arr.add(wordInfo);
