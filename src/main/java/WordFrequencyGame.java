@@ -1,32 +1,26 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
+
+import static java.lang.reflect.Array.*;
 
 public class WordFrequencyGame {
+    String WHITE_SPACE = "\\s+";
+    int wordCount = 1;
     public String getResult(String sentence){
-        String WHITE_SPACE = "\\s+";
-        int wordCount = 1;
         if (sentence.split(WHITE_SPACE).length == wordCount) {
             return sentence + " 1";
         } else {
             try {
                 //split the input string with 1 to n pieces of spaces
-                String[] arr = sentence.split(WHITE_SPACE);
-                List<WordInfo> wordInfoList = new ArrayList<>();
-                for (String s : arr) {
-                    WordInfo wordInfo = new WordInfo(s, wordCount);
-                    wordInfoList.add(wordInfo);
-                }
-                //get the map for the next step of sizing the same word
-                Map<String, List<WordInfo>> map =getListMap(wordInfoList);
-                List<WordInfo> list = new ArrayList<>();
-                for (Map.Entry<String, List<WordInfo>> entry : map.entrySet()){
-                    WordInfo wordInfo = new WordInfo(entry.getKey(), entry.getValue().size());
-                    list.add(wordInfo);
-                }
 
+                //get the map for the next step of sizing the same word
+                List<WordInfo> wordInfoList = new ArrayList<>();
+                List<WordInfo> list = calculateWordFrequency(sentence);
                 wordInfoList = list;
                 wordInfoList.sort((w1, w2) -> w2.getWordCount() - w1.getWordCount());
                 return generateWordFrequencyReport(wordInfoList);
@@ -34,6 +28,19 @@ public class WordFrequencyGame {
                 return "Calculate Error";
             }
         }
+    }
+
+    private List<WordInfo> calculateWordFrequency(String sentence){
+        List<String> words = Arrays.asList(sentence.split(WHITE_SPACE));
+        List<String> distinctWords = words.stream().distinct().collect(Collectors.toList());
+
+        List<WordInfo> wordInfos = new ArrayList<>();
+        distinctWords.forEach(distinctWord ->{
+            int count = (int) words.stream().filter(word -> word.equals(distinctWord)).count();
+            WordInfo wordInfo = new WordInfo(distinctWord, count);
+            wordInfos.add(wordInfo);
+        });
+        return wordInfos;
     }
 
     private String generateWordFrequencyReport(List<WordInfo> wordInfoList) {
