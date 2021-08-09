@@ -11,18 +11,21 @@ public class WordFrequencyGame {
     public String getResult(String inputStr){
 
 
-        if (inputStr.split("\\s+").length==1) {
+        String WHITE_SPACE = "\\s+";
+        int wordCount = 1;
+        if (inputStr.split(WHITE_SPACE).length== wordCount) {
             return inputStr + " 1";
         } else {
 
             try {
 
                 //split the input string with 1 to n pieces of spaces
-                String[] arr = inputStr.split("\\s+");
+                String[] arr = inputStr.split(WHITE_SPACE);
 
                 List<Input> inputList = new ArrayList<>();
+
                 for (String s : arr) {
-                    Input input = new Input(s, 1);
+                    Input input = new Input(s, wordCount);
                     inputList.add(input);
                 }
 
